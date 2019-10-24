@@ -12,7 +12,7 @@ class Flower:
     @name.setter
     def name(self, name):
         if len(name) == 0:
-            raise ValueError
+            raise ValueError('Name  cannot be empty')
         self._name=name         
 
 
