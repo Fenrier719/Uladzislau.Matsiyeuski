@@ -36,7 +36,7 @@ class Order:
         self.id=str(uuid.uuid4())
 
     def __str__(self):
-        return f'Order #{self.id} with {len(self.items) }' +' items'
+        return f'Order #{self.id} with {len(self.items) } items'
 
     def __repr__(self):
         return f'<Order: {self.id}>'
