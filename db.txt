@@ -1,0 +1,111 @@
+1. Добавить запись в таблицу News
+
+insert into news (category,title,small_description,full_description,is_published,publish_date)
+values (4,'Sport news','FC Barselona vs MU ','Watch this match on TV at 20.30 pm', True,'2019-10-11')
+
+2. Добавить запись в таблицу Categories
+
+insert into category (name)
+values ('Sport')
+
+3. Добавить 4 записи в таблицу Categories
+
+insert into category (name)
+values ('Economy')
+insert into category (name)
+values ('Politics')
+insert into category (name)
+values ('Weather')
+insert into category (name)
+values ('Sport')
+
+4. Добавить 500 записей в таблицу News (название, текст не важен)
+do $$
+DECLARE
+    i integer;
+BEGIN
+FOR i IN 1 .. 500
+LOOP
+    INSERT INTO news(category,title,small_description,full_description,is_published, publish_date )
+    VALUES(4,'Title','Small_description',Full_description',cast(cast(random() as integer) as boolean),'2019-10-11');
+END LOOP;
+end $$;
+
+5. Обновить название одной из записей в таблице Categories
+
+UPDATE category SET name = ‘notSport’ WHERE name = ‘Sport’
+
+6. Обновить значение IsPublished в первых 10 записях таблицы News
+
+update news set is_published = True where id in (select id from news limit 10)
+
+
+7. Удалить запись из таблицы News
+
+delete from news
+where is_published = true
+
+8. Удалить 100 последних записей из таблицы news
+
+DELETE FROM news WHERE id in (select id from news order by id desc limit 100)
+
+
+9. Удалить 1 запись из таблицы Categories
+
+delete from category
+where id = '5'
+
+10. Выбрать все записи из таблицы News, у которых IsPublished верно
+select * from news where is_published = true
+
+11. Выбрать все записи из таблицы News с включением имени соответствующей категории
+
+select news.title, category.name 
+from category
+inner join news on news.category = category.id
+
+12. Выбрать все записи из таблицы News с включением соответствующей категории, у который IsPublished верно
+
+select news.title, category.name, news.is_published
+from category
+inner join news on news.category = category.id where is_published = true
+
+13. Выбрать все записи из таблицы Categories, у которых нет соответствия в таблице News
+
+select category.name
+from category
+left join news on news.category = category.id
+where news.category is null
+
+
+14. Вывести количество записей в таблице News для каждой записи в таблице Categories. Отсортировать записи по имени категории в порядке возрастания и по PublishedDate в порядке убывания
+
+SELECT count(*) AS exact_count
+FROM news
+INNER JOIN category ON category.id = news.category
+
+SELECT *
+FROM news
+INNER JOIN category ON category.id = news.category
+ORDER BY category.name,news.publish_date DESC
+
+
+15. Вывести количество записей в таблице News, у которых IsPublished верно, для каждой записи в таблице Categories
+
+SELECT count(*) AS exact_count
+FROM news
+INNER JOIN category ON category.id = news.category
+WHERE is_published = true
+
+
+
+16. Вывести количество записей в таблице News, у которых IsPublished верно и нет
+
+select count(*) from news where is_published = true and is_published = false
+
+17. Вывести количество записей в таблице News, для каждой записи в таблице Categories, у которых IsPublished верно и нет. Отсортировать записи по имени категории.
+SELECT * 
+FROM news
+INNER JOIN category ON category.id = news.category
+where is_published = true and is_published = false
+ORDER BY category.name
