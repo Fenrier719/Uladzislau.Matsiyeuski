@@ -80,14 +80,10 @@ where news.category is null
 
 14. Вывести количество записей в таблице News для каждой записи в таблице Categories. Отсортировать записи по имени категории в порядке возрастания и по PublishedDate в порядке убывания
 
-SELECT count(*) AS exact_count
-FROM news
-INNER JOIN category ON category.id = news.category
-
-SELECT *
-FROM news
-INNER JOIN category ON category.id = news.category
-ORDER BY category.name,news.publish_date DESC
+SELECT *,count(*) AS exact_count FROM news 
+INNER JOIN category on category.id = news.category 
+GROUP BY news.id, category.id
+ORDER BY category.name, news.publish_date DESC
 
 
 15. Вывести количество записей в таблице News, у которых IsPublished верно, для каждой записи в таблице Categories
@@ -101,11 +97,11 @@ WHERE is_published = true
 
 16. Вывести количество записей в таблице News, у которых IsPublished верно и нет
 
-select count(*) from news where is_published = true and is_published = false
+SELECT count(*) AS exact_count FROM news
 
 17. Вывести количество записей в таблице News, для каждой записи в таблице Categories, у которых IsPublished верно и нет. Отсортировать записи по имени категории.
-SELECT * 
-FROM news
-INNER JOIN category ON category.id = news.category
-where is_published = true and is_published = false
+
+SELECT *,count(*) AS exact_count FROM news 
+INNER JOIN category on category.id = news.category 
+GROUP BY news.id, category.id
 ORDER BY category.name
